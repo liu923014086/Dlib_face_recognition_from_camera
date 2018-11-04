@@ -1,11 +1,8 @@
+#!/usr/bin/python
+#-*-coding:utf-8-*-
 # 摄像头实时人脸识别
 
-# Author:   coneypo
-# Blog:     http://www.cnblogs.com/AdaminXie
-# GitHub:   https://github.com/coneypo/Dlib_face_recognition_from_camera
 
-# Created at 2018-05-11
-# Updated at 2018-10-29
 
 import dlib         # 人脸处理的库 Dlib
 import numpy as np  # 数据处理的库 numpy
@@ -55,7 +52,7 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor('data/data_dlib/shape_predictor_68_face_landmarks.dat')
 
 # 创建 cv2 摄像头对象
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # cap.set(propId, value)
 # 设置视频参数，propId 设置的视频参数，value 设置的参数值
@@ -100,6 +97,15 @@ while cap.isOpened():
     pos_namelist = []
     name_namelist = []
 
+    personChineseName = {'person_1': 'liudaxia', 'person_2': 'laowang','unknown':'unknown'}
+
+
+    def showChineseName(name_namelist):
+        chineseNamelist = []
+        for i in name_namelist:
+            chineseNamelist.append(personChineseName[i])
+        return chineseNamelist
+
     # 按下 q 键退出
     if kk == ord('q'):
         break
@@ -137,7 +143,8 @@ while cap.isOpened():
 
             # 在人脸框下面写人脸名字
             for i in range(len(faces)):
-                cv2.putText(img_rd, name_namelist[i], pos_namelist[i], font, 0.8, (0, 255, 255), 1, cv2.LINE_AA)
+                #cv2.putText(img_rd, name_namelist[i], pos_namelist[i], font, 0.8, (0, 255, 255), 1, cv2.LINE_AA)
+                cv2.putText(img_rd, personChineseName[name_namelist[i]], pos_namelist[i], font, 0.8, (0, 255, 255), 1, cv2.LINE_AA)
 
     print("Name list now:", name_namelist, "\n")
 
@@ -152,3 +159,5 @@ cap.release()
 
 # 删除建立的窗口
 cv2.destroyAllWindows()
+
+
